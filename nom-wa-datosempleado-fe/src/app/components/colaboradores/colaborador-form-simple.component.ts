@@ -11,9 +11,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ColaboradorService } from '../../services/colaborador.service';
-import { ColaboradorCreateRequest, ColaboradorUpdateRequest, Colaborador } from '../../models/colaborador.model';
+import { ColaboradorCreateRequest, ColaboradorUpdateRequest, Colaborador, Sexo, Profesion, EstadoCivil, Area } from '../../models/colaborador.model';
 import { AuthService } from '../../services/auth.service';
+import { forkJoin } from 'rxjs';
 
 // Validador personalizado para edad mínima
 function minAgeValidator(minAge: number) {
@@ -50,7 +52,8 @@ function minAgeValidator(minAge: number) {
     MatIconModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule
   ],
   styleUrl: './colaborador-form.component.css',
   template: `
@@ -63,7 +66,14 @@ function minAgeValidator(minAge: number) {
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <form [formGroup]="colaboradorForm" (ngSubmit)="onSubmit()">
+          <!-- Indicador de carga para catálogos -->
+          <div *ngIf="isLoading && !catalogosLoaded" class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Cargando catálogos...</p>
+          </div>
+
+          <!-- Formulario solo visible cuando los catálogos están cargados -->
+          <form [formGroup]="colaboradorForm" (ngSubmit)="onSubmit()" *ngIf="catalogosLoaded || !isLoading">
             
             <!-- Nombre y Apellidos -->
             <div class="form-row">
@@ -202,7 +212,7 @@ function minAgeValidator(minAge: number) {
 
             <!-- Botones -->
             <div class="form-actions">
-              <button mat-raised-button color="primary" type="submit" [disabled]="colaboradorForm.invalid || isLoading">
+              <button mat-raised-button color="primary" type="submit" [disabled]="colaboradorForm.invalid || isLoading || !catalogosLoaded">
                 <mat-icon>save</mat-icon>
                 {{ isEditMode ? 'Actualizar Colaborador' : 'Guardar Colaborador' }}
               </button>
@@ -219,6 +229,16 @@ function minAgeValidator(minAge: number) {
             </div>
 
           </form>
+          
+          <!-- Mensaje de error si no se pudieron cargar los catálogos -->
+          <div *ngIf="!catalogosLoaded && !isLoading" class="error-container">
+            <mat-icon color="warn">error</mat-icon>
+            <p>No se pudieron cargar los catálogos necesarios.</p>
+            <button mat-raised-button color="primary" (click)="loadCatalogos()">
+              <mat-icon>refresh</mat-icon>
+              Reintentar
+            </button>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>
@@ -231,32 +251,12 @@ export class ColaboradorFormSimpleComponent implements OnInit {
   colaboradorId: number | null = null;
   maxFechaNacimiento: Date;
 
-  // Datos de prueba para los catálogos
-  sexos = [
-    { id: 1, nombre: 'Masculino' },
-    { id: 2, nombre: 'Femenino' }
-  ];
-
-  profesiones = [
-    { id: 1, nombre: 'Desarrollador' },
-    { id: 2, nombre: 'Diseñador' },
-    { id: 3, nombre: 'Analista' },
-    { id: 4, nombre: 'Gerente' }
-  ];
-
-  estadosCiviles = [
-    { id: 1, nombre: 'Soltero' },
-    { id: 2, nombre: 'Casado' },
-    { id: 3, nombre: 'Divorciado' },
-    { id: 4, nombre: 'Viudo' }
-  ];
-
-  areas = [
-    { id: 1, nombre: 'Tecnología' },
-    { id: 2, nombre: 'Recursos Humanos' },
-    { id: 3, nombre: 'Finanzas' },
-    { id: 4, nombre: 'Marketing' }
-  ];
+  // Catálogos obtenidos del backend
+  sexos: Sexo[] = [];
+  profesiones: Profesion[] = [];
+  estadosCiviles: EstadoCivil[] = [];
+  areas: Area[] = [];
+  catalogosLoaded = false;
 
   constructor(
     private fb: FormBuilder, 
@@ -289,9 +289,43 @@ export class ColaboradorFormSimpleComponent implements OnInit {
     this.colaboradorId = Number(this.route.snapshot.paramMap.get('id'));
     this.isEditMode = !!this.colaboradorId;
     
-    if (this.isEditMode && this.colaboradorId) {
-      this.loadColaboradorData(this.colaboradorId);
-    }
+    // Cargar catálogos del backend primero
+    this.loadCatalogos();
+  }
+
+  loadCatalogos(): void {
+    this.isLoading = true;
+    
+    // Usar forkJoin para cargar todos los catálogos en paralelo
+    forkJoin({
+      sexos: this.colaboradorService.getSexos(),
+      profesiones: this.colaboradorService.getProfesiones(),
+      estadosCiviles: this.colaboradorService.getEstadosCiviles(),
+      areas: this.colaboradorService.getAreas()
+    }).subscribe({
+      next: (catalogos) => {
+        this.sexos = catalogos.sexos;
+        this.profesiones = catalogos.profesiones;
+        this.estadosCiviles = catalogos.estadosCiviles;
+        this.areas = catalogos.areas;
+        this.catalogosLoaded = true;
+        this.isLoading = false;
+        
+        // Una vez cargados los catálogos, cargar datos del colaborador si es modo edición
+        if (this.isEditMode && this.colaboradorId) {
+          this.loadColaboradorData(this.colaboradorId);
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.catalogosLoaded = false;
+        this.snackBar.open('Error al cargar los catálogos. Intente nuevamente.', 'Cerrar', {
+          duration: 5000,
+          panelClass: 'error-snackbar'
+        });
+        console.error('Error al cargar catálogos:', error);
+      }
+    });
   }
 
   loadColaboradorData(id: number): void {
