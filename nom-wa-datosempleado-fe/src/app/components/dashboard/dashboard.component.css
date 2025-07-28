@@ -1,0 +1,177 @@
+.dashboard-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.menu-button {
+  margin-right: 16px;
+}
+
+.toolbar-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.sidenav {
+  width: 280px;
+  background-color: #fafafa;
+}
+
+.sidenav mat-nav-list {
+  padding-top: 0;
+}
+
+.sidenav mat-list-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidenav mat-list-item:hover {
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+.main-content {
+  background-color: #f5f5f5;
+}
+
+.content-wrapper {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcome-section {
+  margin-bottom: 32px;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.welcome-card mat-card-header {
+  color: white;
+}
+
+.welcome-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.welcome-card mat-card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.welcome-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.quick-actions h2 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.action-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.action-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.action-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #3f51b5;
+  margin-bottom: 16px;
+}
+
+.action-card h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.action-card p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 16px;
+  }
+  
+  .actions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .toolbar-title {
+    font-size: 16px;
+  }
+  
+  .user-button span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-card mat-card-content {
+    padding: 16px;
+  }
+  
+  .action-card mat-card-content {
+    padding: 20px;
+  }
+  
+  .action-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+}

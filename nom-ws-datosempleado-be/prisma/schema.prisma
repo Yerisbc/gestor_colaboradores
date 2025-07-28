@@ -1,0 +1,97 @@
+// Schema para Sistema de Gestión de Colaboradores
+// Base de datos PostgreSQL con Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuario para autenticación
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  nombre   String
+  activo   Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("usuarios")
+}
+
+// Catálogo de Sexos
+model Sexo {
+  id          Int           @id @default(autoincrement())
+  nombre      String        @unique
+  activo      Boolean       @default(true)
+  colaboradores Colaborador[]
+
+  @@map("sexos")
+}
+
+// Catálogo de Profesiones
+model Profesion {
+  id          Int           @id @default(autoincrement())
+  nombre      String        @unique
+  activo      Boolean       @default(true)
+  colaboradores Colaborador[]
+
+  @@map("profesiones")
+}
+
+// Catálogo de Estados Civiles
+model EstadoCivil {
+  id          Int           @id @default(autoincrement())
+  nombre      String        @unique
+  activo      Boolean       @default(true)
+  colaboradores Colaborador[]
+
+  @@map("estados_civiles")
+}
+
+// Catálogo de Áreas
+model Area {
+  id          Int           @id @default(autoincrement())
+  nombre      String        @unique
+  activo      Boolean       @default(true)
+  colaboradores Colaborador[]
+
+  @@map("areas")
+}
+
+// Modelo principal de Colaboradores
+model Colaborador {
+  id              Int         @id @default(autoincrement())
+  numeroEmpleado  String      @unique @map("numero_empleado")
+  nombre          String
+  apellidos       String
+  email           String      @unique
+  telefono        String?
+  fechaNacimiento DateTime    @map("fecha_nacimiento") @db.Date
+  fechaIngreso    DateTime    @map("fecha_ingreso") @db.Date
+  salario         Decimal     @db.Decimal(10, 2)
+  activo          Boolean     @default(true)
+  
+  // Relaciones con catálogos
+  sexoId          Int         @map("sexo_id")
+  sexo            Sexo        @relation(fields: [sexoId], references: [id])
+  
+  profesionId     Int         @map("profesion_id")
+  profesion       Profesion   @relation(fields: [profesionId], references: [id])
+  
+  estadoCivilId   Int         @map("estado_civil_id")
+  estadoCivil     EstadoCivil @relation(fields: [estadoCivilId], references: [id])
+  
+  areaId          Int         @map("area_id")
+  area            Area        @relation(fields: [areaId], references: [id])
+  
+  // Metadatos
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@map("colaboradores")
+}

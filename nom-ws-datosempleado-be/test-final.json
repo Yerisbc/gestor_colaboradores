@@ -1,0 +1,14 @@
+{
+  "numeroEmpleado": "EMP4",
+  "nombre": "Pedro Test Final",
+  "apellidos": "Apellidos Test Final",
+  "email": "pedro.test.final@empresa.com",
+  "telefono": "12345678",
+  "fechaNacimiento": "2005-01-06",
+  "fechaIngreso": "2025-07-24",
+  "salario": 16000,
+  "sexoId": 1,
+  "profesionId": 3,
+  "estadoCivilId": 3,
+  "areaId": 3
+}

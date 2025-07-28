@@ -1,0 +1,203 @@
+.colaboradores-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-card {
+  margin-bottom: 24px;
+}
+
+.header-card mat-card-header {
+  margin-bottom: 16px;
+}
+
+.header-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+}
+
+.header-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #3f51b5;
+}
+
+.header-card mat-card-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header-card mat-card-actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-card {
+  overflow: hidden;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  gap: 16px;
+}
+
+.loading-container p {
+  color: #666;
+  margin: 0;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table {
+  background: white;
+}
+
+th.mat-header-cell {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #333;
+}
+
+td.mat-cell {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.risk-chip {
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+  min-width: 60px;
+  text-align: center;
+}
+
+.risk-chip:hover {
+  transform: scale(1.05);
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  text-align: center;
+  gap: 16px;
+}
+
+.no-data-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #ccc;
+}
+
+.no-data h3 {
+  margin: 0;
+  color: #666;
+}
+
+.no-data p {
+  margin: 0;
+  color: #999;
+}
+
+.no-data button {
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .colaboradores-container {
+    padding: 16px;
+  }
+  
+  .header-card mat-card-actions {
+    flex-direction: column;
+  }
+  
+  .header-card mat-card-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .header-card mat-card-title {
+    font-size: 20px;
+  }
+  
+  .header-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .table-container {
+    font-size: 14px;
+  }
+  
+  /* Hide less important columns on mobile */
+  .mat-column-idcolaborador,
+  .mat-column-sexo,
+  .mat-column-estadoCivil {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .colaboradores-container {
+    padding: 12px;
+  }
+  
+  .header-card mat-card-title {
+    font-size: 18px;
+  }
+  
+  .loading-container {
+    padding: 32px 16px;
+  }
+  
+  .no-data {
+    padding: 32px 16px;
+  }
+  
+  .no-data-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+  
+  /* Show even fewer columns on very small screens */
+  .mat-column-profesion,
+  .mat-column-area {
+    display: none;
+  }
+}
+
+/* Snackbar styles */
+:host ::ng-deep .success-snackbar {
+  background-color: #4caf50;
+  color: white;
+}
+
+:host ::ng-deep .error-snackbar {
+  background-color: #f44336;
+  color: white;
+}
+
+:host ::ng-deep .info-snackbar {
+  background-color: #2196f3;
+  color: white;
+}

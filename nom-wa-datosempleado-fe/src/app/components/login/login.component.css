@@ -1,0 +1,150 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-card-wrapper {
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-card {
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  min-height: 500px;
+}
+
+.test-credentials-info {
+  background-color: #e3f2fd;
+  border: 1px solid #1976d2;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 16px 0;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.test-credentials-info p {
+  margin: 4px 0;
+  color: #1976d2;
+}
+
+.test-credentials-info strong {
+  color: #0d47a1;
+}
+
+.login-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.login-header mat-card-title {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.login-header h2 {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.login-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #3f51b5;
+  margin-bottom: 16px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-actions {
+  margin-top: 24px;
+}
+
+.login-button {
+  height: 52px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.login-button mat-spinner {
+  margin: 0 auto;
+}
+
+mat-form-field {
+  margin-bottom: 4px;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 16px;
+}
+
+/* Asegurar que los mat-form-field tengan suficiente altura */
+::ng-deep .mat-mdc-form-field {
+  min-height: 80px;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  margin-top: 4px;
+  min-height: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 16px;
+  }
+  
+  .login-card {
+    padding: 24px;
+    min-height: auto;
+  }
+  
+  .login-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .login-header h2 {
+    font-size: 20px;
+  }
+
+  .login-card-wrapper {
+    max-width: 350px;
+  }
+}
+
+/* Snackbar styles */
+:host ::ng-deep .success-snackbar {
+  background-color: #4caf50;
+  color: white;
+}
+
+:host ::ng-deep .error-snackbar {
+  background-color: #f44336;
+  color: white;
+}
