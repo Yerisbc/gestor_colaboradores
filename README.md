@@ -6,3 +6,6 @@ Este repositorio contiene el sistema completo de gestión de datos de empleados,
 - `nom-ws-datosempleado-be`: Aplicación **backend** desarrollada en Node.js con Express, PostgreSQL y Prisma ORM.
 
 # Cada proyecto cuenta con su propio archivo `README.md`, donde se detallan los pasos necesarios para iniciar y configurar cada aplicación de forma independiente.
+
+##Video presentación
+https://drive.google.com/file/d/16mE64Sf5JWpKtcjaTyeZ6iIHQVgZVetS/view?usp=sharing
